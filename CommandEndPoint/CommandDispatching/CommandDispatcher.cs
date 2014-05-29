@@ -10,7 +10,8 @@
     using Autofac;
 
     using CommandEndPoint.CommandDispatching.Exceptions;
-    using CommandEndPoint.Domain;
+
+    using Domain;
 
     using FluentValidation;
 

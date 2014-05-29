@@ -45,8 +45,18 @@
     <Reference Include="Autofac.Integration.WebApi">
       <HintPath>..\packages\Autofac.WebApi2.3.3.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="EasyNetQ">
+      <HintPath>..\packages\EasyNetQ.0.32.1.268\lib\net40\EasyNetQ.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\packages\FluentValidation.5.3.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="NEventStore, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NEventStore.5.0.1.2\lib\net40\NEventStore.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.3.0\lib\net30\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,7 +78,12 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{3E2B5943-E51C-4C1B-8241-4A75835AEC12}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\IoCConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -82,14 +97,10 @@
     <Compile Include="CommandDispatching\Exceptions\TooManyValidatorsException.cs" />
     <Compile Include="CommandDispatching\ICommandDispatcher.cs" />
     <Compile Include="Commands\CommandController.cs" />
-    <Compile Include="Domain\ICommandHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sample\SampleCommandHandler.cs" />
-    <Compile Include="Sample\SampleCommand.cs" />
-    <Compile Include="Sample\SampleValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

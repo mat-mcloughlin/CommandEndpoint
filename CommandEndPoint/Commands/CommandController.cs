@@ -36,7 +36,7 @@
             return command;
         }
 
-        public async Task<object> BindToCommand()
+        private async Task<object> BindToCommand()
         {
             var requestBody = await this.Request.Content.ReadAsStringAsync();
             var commandTypeHeader = TryGetCommandTypeHeader();

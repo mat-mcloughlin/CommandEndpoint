@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using CommandEndPoint.Domain;
+    using Domain;
 
     public class CommandTypeMap : ICommandTypeMap
     {
@@ -20,7 +20,6 @@
             {
                 this.commandTypes.Add(commandType.Name, commandType);
             }
-
         }
 
         public IDictionary<string, Type> ByName
@@ -36,7 +35,7 @@
             return type.GetInterfaces().First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)).GetGenericArguments()[0];
         }
 
-        public static bool IsAssignableToGenericType(Type type, Type genericType)
+        private static bool IsAssignableToGenericType(Type type, Type genericType)
         {
             var interfaceTypes = type.GetInterfaces();
 

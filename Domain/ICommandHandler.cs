@@ -1,4 +1,4 @@
-﻿namespace CommandEndPoint.Domain
+﻿namespace Domain
 {
     public interface ICommandHandler<in T>
     {
