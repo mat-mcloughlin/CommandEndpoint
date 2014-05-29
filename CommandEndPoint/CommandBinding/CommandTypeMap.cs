@@ -6,13 +6,11 @@
 
     using CommandEndPoint.Domain;
 
-    public class CommandTypeMap
+    public class CommandTypeMap : ICommandTypeMap
     {
-        private static CommandTypeMap instance;
-
         private readonly IDictionary<string, Type> commandTypes;
 
-        private CommandTypeMap()
+        public CommandTypeMap()
         {
             this.commandTypes = new Dictionary<string, Type>();
 
@@ -25,16 +23,11 @@
 
         }
 
-        public static IDictionary<string, Type> ByName
+        public IDictionary<string, Type> ByName
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new CommandTypeMap();
-                }
-
-                return instance.commandTypes;
+                return this.commandTypes;
             }
         }
 

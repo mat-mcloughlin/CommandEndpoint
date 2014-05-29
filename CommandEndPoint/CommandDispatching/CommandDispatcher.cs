@@ -1,7 +1,11 @@
 ﻿namespace CommandEndPoint.CommandDispatching
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+    using System.Runtime.ExceptionServices;
+    using System.Threading.Tasks;
 
     using Autofac;
 
@@ -10,16 +14,31 @@
 
     using FluentValidation;
 
-    public class CommandDispatcher
+    public class CommandDispatcher : ICommandDispatcher
     {
         private readonly IComponentContext container;
+
+        private readonly MethodInfo dispatchMethodInfo;
 
         public CommandDispatcher(IComponentContext container)
         {
             this.container = container;
+            dispatchMethodInfo = typeof(CommandDispatcher).GetMethod("SendGeneric", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
-        public void Send<T>(T command) where T : class
+        public async Task Send(Guid commandId, object command)
+        {
+            try
+            {
+                await (Task)this.dispatchMethodInfo.MakeGenericMethod(command.GetType()).Invoke(this, new[] { commandId, command });
+            }
+            catch (TargetInvocationException ex)
+            {
+                ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+            }
+        }
+        
+        private async Task SendGeneric<T>(Guid commandId, T command) where T : class
         {
             var validator = this.TryGetValidator<T>();
             var result = validator.Validate(command);
@@ -30,7 +49,7 @@
             }
 
             var handler = this.TryGetCommandHandler<T>();
-            handler.Execute(command);
+            await Task.Factory.StartNew(() => handler.Execute(command));
         }
 
         private IValidator<T> TryGetValidator<T>()

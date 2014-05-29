@@ -7,6 +7,7 @@
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            IoCConfig.RegisterDependencies();
         }
     }
 }
